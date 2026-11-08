@@ -1,0 +1,40 @@
+[project]
+name = "data-launchpad"
+version = "0.1.0"
+description = "A modern data launchpad with PostgreSQL, DuckDB, and dbt"
+readme = "README.md"
+requires-python = ">=3.15"
+dependencies = [
+    "dbt-duckdb>=1.11.1",
+    "duckdb>=2.0",
+    "pgcli>=4.7.1",
+    "psycopg-binary>=3.3.8",
+    "ruff>=0.17.4",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.4",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 88
+target-version = "py315"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort (import sorting)
+    "UP",  # pyupgrade (modern python syntax)
+    "B",   # flake8-bugbear
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

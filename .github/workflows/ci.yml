@@ -1,0 +1,57 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint:
+    name: Code Quality (Ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Check code linting
+        run: uv run ruff check .
+
+      - name: Check code formatting
+        run: uv run ruff format --check .
+
+  dbt-pipeline:
+    name: Warehouse Build & dbt Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Start PostgreSQL Source Database
+        run: docker compose -f docker/docker-compose.yml up -d --wait
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Validate dbt Project Parsing
+        run: uv run dbt parse --project-dir dbt_project --profiles-dir dbt_project
+
+      - name: Run dbt Build (Sources -> Staging -> Marts + Tests)
+        run: uv run dbt build --project-dir dbt_project --profiles-dir dbt_project
+
+      - name: Teardown PostgreSQL
+        if: always()
+        run: docker compose -f docker/docker-compose.yml down

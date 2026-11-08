@@ -1,0 +1,12 @@
+data_launchpad:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: warehouse.duckdb
+      extensions:
+        - postgres
+      attach:
+        - path: "dbname=dev user=postgres password=postgrespassword host=localhost port=5432"
+          type: postgres
+          alias: pg_source

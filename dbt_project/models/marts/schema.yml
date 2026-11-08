@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "Fact table for orders placed."
+    columns:
+      - name: order_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
+
+      - name: customer_id
+        description: "Foreign key ref to stg_customers"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+
+      - name: total_amount
+        description: "Total order value"
+        tests:
+          - not_null
+
+  - name: dim_customers
+    description: "Dimension table of customer aggregations and spend"
+    columns:
+      - name: customer_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null

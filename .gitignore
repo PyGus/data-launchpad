@@ -1,0 +1,49 @@
+# Environments and Package Managers (uv, Python)
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+
+# DuckDB Files
+*.duckdb
+*.duckdb.wal
+*.duckdb.tmp
+
+# dbt Artifacts
+target/
+dbt_packages/
+dbt_modules/
+logs/
+*.log
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Operating System & Editors
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Docker / Local DB Data (if bind-mounted)
+pg_data/
+
+.zed
+agent.md

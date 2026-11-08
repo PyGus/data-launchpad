@@ -1,0 +1,16 @@
+CREATE SCHEMA IF NOT EXISTS raw;
+
+CREATE TABLE raw.customers (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE raw.orders (
+    id SERIAL PRIMARY KEY,
+    customer_id INT REFERENCES raw.customers(id),
+    status VARCHAR(50) NOT NULL,
+    total_amount NUMERIC(10, 2) NOT NULL,
+    order_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
